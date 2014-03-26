@@ -102,7 +102,7 @@ public class CaptainKirk {
         //////////////////
         if (remount) {
             args.add(adb.toString());
-            if (deviceSerial != null | !deviceSerial.equals("")) {
+            if (deviceSerial != null && !deviceSerial.isEmpty()) {
                 args.add("-s " + deviceSerial);
             }
             args.add("remount");
@@ -161,7 +161,7 @@ public class CaptainKirk {
         ProcessBuilder process = new ProcessBuilder();
         Process pr = null;
         BufferedReader processReader = null;
-        List<String> args = new ArrayList();
+        List<String> args = new ArrayList<>();
         String line = "";
 
         ////////////////////
@@ -203,7 +203,7 @@ public class CaptainKirk {
         /////////////////
         StringBuilder str = new StringBuilder();
         ProcessBuilder process = new ProcessBuilder();
-        List<String> args = new ArrayList();
+        List<String> args = new ArrayList<>();
         Process pr = null;
         BufferedReader processReader = null;
         String line = "";
@@ -212,7 +212,7 @@ public class CaptainKirk {
         // Execute command/
         //////////////////
         args.add(adb.toString());
-        if (deviceSerial != null | !deviceSerial.equals("")) {
+        if (deviceSerial != null && !deviceSerial.isEmpty()) {
             args.add("-s");
             args.add(deviceSerial);
         }
@@ -257,7 +257,7 @@ public class CaptainKirk {
         /////////////////
         StringBuilder str = new StringBuilder();
         ProcessBuilder process = new ProcessBuilder();
-        List<String> args = new ArrayList();
+        List<String> args = new ArrayList<>();
         Process pr = null;
         BufferedReader processReader = null;
         String line = "";
@@ -266,7 +266,7 @@ public class CaptainKirk {
         // Execute command/
         //////////////////
         args.add(fastboot.toString());
-        if (deviceSerial != null | !deviceSerial.equals("")) {
+        if (deviceSerial != null && !deviceSerial.isEmpty()) {
             args.add("-s " + deviceSerial);
         }
         switch (mode) {
@@ -301,7 +301,7 @@ public class CaptainKirk {
      * @throws IOException if something went wrong.
      */
     public List<String> getConnectedDevices() throws IOException {
-        List<String> devices = new ArrayList();
+        List<String> devices = new ArrayList<>();
         String[] cmd = {"devices"};
 
         String raw = executeADBCommand(false, false, null, cmd);
@@ -309,6 +309,10 @@ public class CaptainKirk {
         String line = "";
         while ((line = reader.readLine()) != null) {
             if (line.startsWith("List ")) {
+                continue;
+            }
+            if(line.trim().isEmpty())//ignore empty lines
+            {
                 continue;
             }
             devices.add(line);
@@ -325,7 +329,7 @@ public class CaptainKirk {
      * @throws IOException if something went wrong.
      */
     public List<String> getConnectedFastbootDevices() throws IOException {
-        List<String> devs = new ArrayList();
+        List<String> devs = new ArrayList<>();
 
         String raw = executeFastbootCommand(null, new String[]{"devices"});
         BufferedReader reader = new BufferedReader(new StringReader(raw));

@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import JDroidLib.android.controllers.ADBController;
+import JDroidLib.android.device.Device;
 import JDroidLib.enums.OS;
 import JDroidLib.enums.RebootTo;
 
@@ -300,8 +302,8 @@ public class CaptainKirk {
      * @return devices and device states.
      * @throws IOException if something went wrong.
      */
-    public List<String> getConnectedDevices() throws IOException {
-        List<String> devices = new ArrayList<>();
+    public List<Device> getConnectedDevices(ADBController controller) throws IOException {
+        List<Device> devices = new ArrayList<>();
         String[] cmd = {"devices"};
 
         String raw = executeADBCommand(false, false, null, cmd);
@@ -315,7 +317,8 @@ public class CaptainKirk {
             {
                 continue;
             }
-            devices.add(line);
+            Device device = new Device(line, controller);
+            devices.add(device);
         }
 
         return devices;

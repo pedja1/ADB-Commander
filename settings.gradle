@@ -1,0 +1,4 @@
+rootProject.name = 'ADB-Commander'
+
+include 'JDroidLib'
+
